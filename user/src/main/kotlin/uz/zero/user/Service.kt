@@ -16,6 +16,8 @@ interface UserService {
     fun update(id: Long, userUpdateDto: UserUpdateDto)
     fun addAdmin(id: Long)
     fun delete(id: Long)
+    fun findCourses(id: Long): List<UserCourseGetDto>
+    fun findUsers(id: Long): List<UserCourseGetDto>
 }
 
 @Service
@@ -27,11 +29,13 @@ class UserServiceImpl(private val userRepository: UserRepository,
     @Transactional
     override fun register(userPostDto: UserPostDto) {
         userPostDto.run {
-            userRepository.findByUsernameAndDeletedFalse(username)
-                ?: throw UsernameAlreadyExistException()
+            userRepository.findByUsernameAndDeletedFalse(username)?.let {
+                throw UsernameAlreadyExistException()
+            }
 
-            userRepository.findByPhoneNumberAndDeletedFalse(phoneNumber)
-                ?: throw PhoneNumberAlreadyExistException()
+            userRepository.findByPhoneNumberAndDeletedFalse(phoneNumber)?.let {
+                throw PhoneNumberAlreadyExistException()
+            }
 
             val user = toEntity(userPostDto)
             userRepository.save(user)
@@ -90,8 +94,10 @@ class UserServiceImpl(private val userRepository: UserRepository,
 
         val courseGetDto = courseFeignClient.getCourseById(userCourseDto.courseId)
 
-        userCourseRepository.findByUserIdAndCourseIdAndDeletedFalse(userCourseDto.userId,userCourseDto.courseId)
-            ?: throw UserAlreadyBoughtCourseException()
+        userCourseRepository.findByUserIdAndCourseIdAndDeletedFalse(userCourseDto.userId,userCourseDto.courseId)?.let {
+            throw UserAlreadyBoughtCourseException()
+        }
+
 
         paymentFeignClient.addPayment(PaymentPostDto(
             courseId = courseGetDto.id,
@@ -119,5 +125,12 @@ class UserServiceImpl(private val userRepository: UserRepository,
 
         userRepository.trash(id)
     }
+
+    override fun findCourses(id: Long): List<UserCourseGetDto> =
+        userCourseRepository.findByUserIdAndDeletedFalse(id).map(UserCourseGetDto::toResponse)
+
+    override fun findUsers(id: Long): List<UserCourseGetDto> =
+        userCourseRepository.findByCourseIdAndDeletedFalse(id).map(UserCourseGetDto::toResponse)
+
 
 }

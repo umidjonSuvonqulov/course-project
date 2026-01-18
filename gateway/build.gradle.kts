@@ -1,13 +1,13 @@
 plugins {
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
-    id("org.springframework.boot") version "3.5.9"
+    id("org.springframework.boot") version "3.4.4"
     id("io.spring.dependency-management") version "1.1.7"
+    id("org.cyclonedx.bom") version "2.3.1"
 }
 
 group = "uz.zero"
 version = "0.0.1-SNAPSHOT"
-description = "gateway"
 
 java {
     toolchain {
@@ -19,18 +19,15 @@ repositories {
     mavenCentral()
 }
 
-extra["springCloudVersion"] = "2025.0.1"
+extra["springCloudVersion"] = "2024.0.1"
 
 dependencies {
     runtimeOnly("io.netty:netty-resolver-dns-native-macos:4.1.119.Final:osx-aarch_64")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("org.springframework.cloud:spring-cloud-config-server")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("org.springframework.cloud:spring-cloud-starter-config")
 }
 
 dependencyManagement {
@@ -43,8 +40,4 @@ kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }

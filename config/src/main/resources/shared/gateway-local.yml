@@ -10,19 +10,19 @@ spring:
         - RestrictedPathFilter
       routes:
         - id: user-route
-          uri: ${services.hosts.user}
+          uri: http://localhost:8081
           predicates:
             - Path=/api/v1/user/**
           filters:
             - RewritePath=/api/v1/user(?<remaining>/?.*), /${remaining}
         - id: course-route
-          uri: ${services.hosts.course}
+          uri: http://localhost:8082
           predicates:
             - Path=/api/v1/course/**
           filters:
             - RewritePath=/api/v1/course(?<remaining>/?.*), /${remaining}
         - id: payment-route
-          uri: ${services.hosts.payment}
+          uri: http://localhost:8083
           predicates:
             - Path=/api/v1/payment/**
           filters:

@@ -1,9 +1,9 @@
 spring:
   application:
-    name: user
+    name: course
   cloud:
     config:
-      uri: ${CONFIG_URI:http://localhost:8081}
+      uri: ${CONFIG_URI:http://localhost:8888}
       password: ${CONFIG_PASSWORD:connection_security_word}
       username: user
   config:

@@ -1,5 +1,6 @@
 package uz.zero.user
 
+import feign.FeignException
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.ResponseEntity
@@ -31,6 +32,14 @@ class ExceptionHandler(
                     BaseMessage(400, "$fieldName: $message")
                 }
                 return ResponseEntity.badRequest().body(errors)
+            }
+
+
+            is FeignException -> {
+
+                return ResponseEntity
+                    .status(exception.status())
+                    .body(exception.contentUTF8())
             }
 
             else -> {

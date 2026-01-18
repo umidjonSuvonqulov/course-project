@@ -36,6 +36,7 @@ class BaseEntity(
 )
 
 @Entity
+@Table(name = "course", schema = "course")
 class Course(
     var name: String,
     var description: String? = null,

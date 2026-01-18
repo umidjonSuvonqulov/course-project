@@ -55,6 +55,7 @@ class User(
 )
 
 class UserCourse(
-    @ManyToOne(fetch = FetchType.LAZY) var user: User,
+    @ManyToOne(fetch = FetchType.LAZY)
+    var user: User,
     val courseId: Long
 ): BaseEntity()

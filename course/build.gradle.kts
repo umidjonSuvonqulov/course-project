@@ -1,14 +1,21 @@
 plugins {
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
-    id("org.springframework.boot") version "3.5.9"
-    id("io.spring.dependency-management") version "1.1.7"
     kotlin("plugin.jpa") version "1.9.25"
+    kotlin("plugin.allopen") version "1.9.25"
+    id("org.springframework.boot") version "3.4.7"
+    id("io.spring.dependency-management") version "1.1.7"
 }
+val springCloudVersion by extra("2024.0.1")
 
 group = "uz.zero"
 version = "0.0.1-SNAPSHOT"
-description = "course"
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
+    annotation("jakarta.persistence.MappedSuperclass")
+}
 
 java {
     toolchain {
@@ -19,8 +26,6 @@ java {
 repositories {
     mavenCentral()
 }
-
-extra["springCloudVersion"] = "2025.0.1"
 
 dependencies {
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -35,24 +40,13 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
 }
 
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-    }
-}
-
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
 }
-
-allOpen {
-    annotation("jakarta.persistence.Entity")
-    annotation("jakarta.persistence.MappedSuperclass")
-    annotation("jakarta.persistence.Embeddable")
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
+    }
 }

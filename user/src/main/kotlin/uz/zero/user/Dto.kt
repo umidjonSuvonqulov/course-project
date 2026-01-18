@@ -106,3 +106,15 @@ data class UserCourseDto(
     }
 }
 
+data class UserCourseGetDto(
+    val userId: Long,
+    val courseId: Long,
+){
+    companion object{
+        fun toResponse(userCourse: UserCourse) = UserCourseGetDto(
+            userCourse.user.id!!,
+            userCourse.courseId
+        )
+    }
+}
+

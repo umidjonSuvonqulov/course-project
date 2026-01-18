@@ -23,11 +23,11 @@ class CourseServiceImpl(private val courseRepository: CourseRepository,
 
     @Transactional
     override fun add(coursePostDto: CoursePostDto) {
-        coursePostDto.price?.let {
-            if (it < BigDecimal.ZERO) {
-                throw CoursePriceInvalidException()
-            }
+
+        if (coursePostDto.price < BigDecimal.ZERO) {
+            throw CoursePriceInvalidException()
         }
+
         val course = toEntity(coursePostDto)
         courseRepository.save(course)
     }

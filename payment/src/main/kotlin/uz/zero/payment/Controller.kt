@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v1/payment")
+@RequestMapping
 class PaymentController(private val paymentService: PaymentService) {
 
     @PostMapping("/add")

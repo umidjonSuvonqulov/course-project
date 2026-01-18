@@ -3,7 +3,7 @@ spring:
     name: payment
   cloud:
     config:
-      uri: ${CONFIG_URI:http://localhost:8083}
+      uri: ${CONFIG_URI:http://localhost:8888}
       password: ${CONFIG_PASSWORD:connection_security_word}
       username: user
   config:

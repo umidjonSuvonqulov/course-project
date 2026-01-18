@@ -52,4 +52,6 @@ interface UserRepository : BaseRepository<User> {
 
 interface UserCourseRepository : BaseRepository<UserCourse> {
     fun findByUserIdAndCourseIdAndDeletedFalse(userId: Long, courseId: Long): UserCourse?
+    fun findByUserIdAndDeletedFalse(userId: Long): List<UserCourse>
+    fun findByCourseIdAndDeletedFalse(userId: Long): List<UserCourse>
 }
