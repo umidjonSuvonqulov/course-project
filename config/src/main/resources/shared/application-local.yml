@@ -1,0 +1,11 @@
+services:
+  hosts:
+    gateway: http://localhost:8080
+    user: http://localhost:8081
+    course: http://localhost:8082
+    payment: http://localhost:8083
+  ports:
+    gateway: 8080
+    user: 8081
+    course: 8082
+    payment: 8083

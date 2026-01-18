@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: user
+  cloud:
+    config:
+      uri: ${CONFIG_URI:http://localhost:8081}
+      password: ${CONFIG_PASSWORD:connection_security_word}
+      username: user
+  config:
+    import: 'configserver:'
+  profiles:
+    active: local

@@ -1,0 +1,29 @@
+server:
+  port: ${services.ports.gateway}
+spring:
+  cloud:
+    gateway:
+      restricted-paths:
+        - /api/v1/[a-zA-Z]+/internal/.*
+      global-filter:
+        - LoggingGlobalFilter
+        - RestrictedPathFilter
+      routes:
+        - id: user-route
+          uri: ${services.hosts.user}
+          predicates:
+            - Path=/api/v1/user/**
+          filters:
+            - RewritePath=/api/v1/user(?<remaining>/?.*), /${remaining}
+        - id: course-route
+          uri: ${services.hosts.course}
+          predicates:
+            - Path=/api/v1/course/**
+          filters:
+            - RewritePath=/api/v1/course(?<remaining>/?.*), /${remaining}
+        - id: payment-route
+          uri: ${services.hosts.payment}
+          predicates:
+            - Path=/api/v1/payment/**
+          filters:
+            - RewritePath=/api/v1/payment(?<remaining>/?.*), /${remaining}
