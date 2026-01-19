@@ -10,6 +10,4 @@ spring:
     import: 'configserver:'
   profiles:
     active: local
-  messages:
-    basename: error
-    encoding: UTF-8
+

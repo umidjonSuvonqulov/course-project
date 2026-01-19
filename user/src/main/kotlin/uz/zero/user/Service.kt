@@ -65,13 +65,15 @@ class UserServiceImpl(private val userRepository: UserRepository,
             firstName?.let { user.firstName = it }
             lastName?.let { user.lastName = it }
             username?.let { newUsername ->
-                userRepository.findByIdNotAndUsernameAndDeletedFalse(id, newUsername)
-                    ?: throw UsernameAlreadyExistException()
+                userRepository.findByIdNotAndUsernameAndDeletedFalse(id, newUsername)?.let {
+                    throw UsernameAlreadyExistException()
+                }
                 user.username = newUsername
             }
             phoneNumber?.let { newPhoneNumber ->
-                userRepository.findByIdNotAndPhoneNumberAndDeletedFalse(id, newPhoneNumber)
-                    ?: throw PhoneNumberAlreadyExistException()
+                userRepository.findByIdNotAndPhoneNumberAndDeletedFalse(id, newPhoneNumber)?.let {
+                    throw PhoneNumberAlreadyExistException()
+                }
                 user.phoneNumber = newPhoneNumber
             }
             password?.let { user.password = it }

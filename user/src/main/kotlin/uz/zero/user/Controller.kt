@@ -45,7 +45,7 @@ class UserController(private val userService: UserService) {
     fun findCourses(@PathVariable id: Long) = userService.findCourses(id)
 
     //courseni sotib olgan userlar
-    @GetMapping("/getAll/{id}")
+    @GetMapping("/getAl/{id}")
     fun findUsers(@PathVariable id: Long) = userService.findUsers(id)
 
 }
